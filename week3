@@ -1,0 +1,112 @@
+package main
+
+import (
+  "fmt"
+)
+
+type Node struct {
+  Value int
+  Next  *Node
+}
+
+type Stack struct {
+  Top  *Node
+  Size int
+}
+
+func (list *Stack) Clear() {
+  list.Top = nil
+  list.Size = 0
+}
+
+func (list *Stack) Push(val int) {
+  last := &Node{Value: val}
+  last.Next = list.Top
+  list.Top = last
+  list.Size++
+}
+
+func (list *Stack) Pop() int {
+  if list.Size == 0 {
+    fmt.Println("Stack is empty")
+    return -1
+  }
+
+  value := list.Top.Value
+  list.Top = list.Top.Next
+  list.Size -= 1
+  return value
+}
+
+func (list *Stack) Contains(val int) bool {
+  pivot := list.Top
+  for pivot != nil {
+    if pivot.Value == val {
+      return true
+    }
+    pivot = pivot.Next
+  }
+  return false
+}
+
+func (list *Stack) Peek() int {
+  if list.Size == 0 {
+    fmt.Println("Stack is empty")
+    return -1
+  }
+  value := list.Top.Value
+  return value
+}
+
+func (list *Stack) Increment() {
+  pivot := list.Top
+  for pivot != nil {
+    pivot.Value++
+    pivot = pivot.Next
+  }
+}
+
+func (list *Stack) Print() {
+  pivot := list.Top
+  for pivot != nil {
+    fmt.Print(pivot.Value)
+    fmt.Print(" ")
+    pivot = pivot.Next
+  }
+  fmt.Print("\n")
+}
+
+func (list *Stack) PrintReverse() {
+  if list.Size == 0 {
+    fmt.Println("Stack is empty")
+    return
+  }
+
+  nodes := []int{}
+
+  current := list.Top
+  for current != nil {
+    nodes = append(nodes, current.Value)
+    current = current.Next
+  }
+
+  for i := len(nodes) - 1; i >= 0; i-- {
+    fmt.Print(nodes[i], " ")
+  }
+  fmt.Println()
+}
+
+func main() {
+  stack := &Stack{}
+  stack.Push(214)
+  stack.Push(567)
+  stack.Push(2345)
+  stack.Push(6312)
+  stack.Push(2353)
+  stack.Print()
+  fmt.Println(stack.Contains(2353))
+  fmt.Println(stack.Pop())
+  stack.Print()
+  fmt.Println(stack.Peek())
+  stack.PrintReverse()
+}
